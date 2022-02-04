@@ -43,7 +43,7 @@ jobs:
         file: ./Dockerfile
         builder: ${{ steps.buildx.outputs.name }}
         push: true
-        tags: '${{ secrets.REGISTRY_URL }}/KooGG/koo-api:latest' 
+        tags: '${{ secrets.REGISTRY_URL }}/koogg/koo-api:latest' 
 #         cache-from: 'type=registry,ref=${{ secrets.REGISTRY_URL }}/my-project/server:buildcache'
 #         cache-to: 'type=registry,ref=${{ secrets.REGISTRY_URL }}/my-project/server:buildcache,mode=max
 
