@@ -37,20 +37,13 @@ jobs:
         password: ${{ secrets.REGISTRY_PASSWORD }}
         
     - name: Build and push
-      uses: mr-smithers-excellent/docker-build-push@v5
+      uses: docker/build-push-action@v2
       with:
-        image: KooGG/koo-api
-        registry: ${{ secrets.REGISTRY_URL }}
-        username: ${{ secrets.REGISTRY_USERNAME }}
-        password: ${{ secrets.REGISTRY_PASSWORD }}
-        
-#       uses: docker/build-push-action@v2
-#       with:
-#         context: .
-#         file: ./Dockerfile
-#         builder: ${{ steps.buildx.outputs.name }}
-#         push: true
-#         tags: '${{ secrets.REGISTRY_URL }}/koogg/koo-api:latest' 
+        context: .
+        file: ./Dockerfile
+        builder: ${{ steps.buildx.outputs.name }}
+        push: true
+        tags: '${{ secrets.REGISTRY_URL }}/${{ secrets.REGISTRY_USERNAME }}/koo-api:latest' 
 #         cache-from: 'type=registry,ref=${{ secrets.REGISTRY_URL }}/my-project/server:buildcache'
 #         cache-to: 'type=registry,ref=${{ secrets.REGISTRY_URL }}/my-project/server:buildcache,mode=max
 
