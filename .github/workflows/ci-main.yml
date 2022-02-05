@@ -87,7 +87,7 @@ jobs:
     # 수정된 파일 commit & push
     - name: Commit files
       run: |
-        cd kustomize-test
+        cd CICD-kustomize-test
         git config --global user.email "9812smh@naver.com"
         git config --global user.name "sa46lll"
         git commit -am "Update image tag"
