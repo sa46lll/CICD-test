@@ -72,7 +72,7 @@ jobs:
     # 태그 이름
     - name: Get the version
       id: get_version
-      run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
 
     # 새 이미지 버전으로 파일 수정
     - name: Update Kubernetes resources
