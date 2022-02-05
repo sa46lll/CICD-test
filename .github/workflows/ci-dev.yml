@@ -86,7 +86,7 @@ jobs:
     - name: Update Kubernetes resources
       run: |
         cd CICD-kustomize-test/overlays/dev/
-        kustomize edit set image dev-koo-api:${{ github.event.pull_request.base.sha }}
+        kustomize edit set image dev-koo-api:${{ github.event.sha }}
         cat kustomization.yaml
         
     # 수정된 파일 commit & push
