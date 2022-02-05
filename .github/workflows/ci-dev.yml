@@ -72,15 +72,15 @@ jobs:
         path: CICD-kustomize-test
       
     # 태그 이름
-    - name: Get the version
-      id: get_version
-      run: echo ::set-output name=prNumber::${GITHUB_REF#refs/pull/:prNumber/merge/}
+#     - name: Get the version
+#       id: get_version
+#       run: echo ::set-output name=prNumber::${GITHUB_REF#refs/pull/:prNumber/merge/}
 
     # 새 이미지 버전으로 파일 수정
     - name: Update Kubernetes resources
       run: |
         cd CICD-kustomize-test/overlays/dev/
-        kustomize edit set image dev-koo-api:${{ steps.get_version.outputs.prNumber }}
+        kustomize edit set image dev-koo-api:${{ github.event.pull_request.number }}
         cat kustomization.yaml
         
     # 수정된 파일 commit & push
