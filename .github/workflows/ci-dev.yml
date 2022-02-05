@@ -9,7 +9,7 @@ name: Java CI with Gradle - DEV version
 
 on:
   push:
-    branches: [ DEPLOYMENT ]
+    branches: [ deployment ]
 
 jobs:
   build:
