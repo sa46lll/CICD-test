@@ -10,7 +10,7 @@ name: Java CI with Gradle - DEV version
 on:
   push:
     branches: 
-      - DEPLOYMENT
+      - feature#4/dev-version # test
   pull_request:
     branches: 
       - DEPLOYMENT
