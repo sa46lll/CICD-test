@@ -8,17 +8,14 @@
 name: Java CI with Gradle - DEV version
 
 on:
-  push:
-    branches: 
-      - feature#4/dev-version # test
   pull_request:
     branches: 
       - DEPLOYMENT
-#     types: [ closed ]
+    types: [ closed ]
 
 jobs:
   build:
-#     if: ${{ github.event.pull_request.merged }}
+    if: ${{ github.event.pull_request.merged }}
     runs-on: ubuntu-latest
     
     steps:
@@ -56,11 +53,10 @@ jobs:
       with:
         context: .
         file: ./Dockerfile
+        platforms: linux/arm64
         builder: ${{ steps.buildx.outputs.name }}
         push: true
         tags: '${{ secrets.REGISTRY_URL }}/${{ secrets.REGISTRY_USERNAME }}/dev-koo-api:${{ steps.image.outputs.tag }}' 
-#         cache-from: 'type=registry,ref=${{ secrets.REGISTRY_URL }}/my-project/server:buildcache'
-#         cache-to: 'type=registry,ref=${{ secrets.REGISTRY_URL }}/my-project/server:buildcache,mode=max
 
 
     - name: Setup Kustomize
@@ -73,17 +69,6 @@ jobs:
         ref: develop
         token: ${{ secrets.ACTION_TOKEN }}
         path: CICD-kustomize-test
-      
-#     태그 이름
-    - name: Get the version
-      id: get_version
-      run: echo ::set-output name=prNumber::${GITHUB_REF/refs\/pull\/:prNumber\/merge\//}
-
-    # PR 해시 출력
-    - name: Dump GitHub context
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: echo "$GITHUB_CONTEXT"
 
     # 새 이미지 버전으로 파일 수정
     - name: Update Kubernetes resources
