@@ -71,15 +71,10 @@ jobs:
         token: ${{ secrets.ACTION_TOKEN }}
         path: CICD-kustomize-test
       
-    # 태그 이름
-#     - name: Get the version
-#       id: get_version
-#       run: echo ::set-output name=prNumber::${GITHUB_REF#refs/pull/:prNumber/merge/}
-
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        ref: ${{ github.event.pull_request.base.sha }}
+#     태그 이름
+    - name: Get the version
+      id: get_version
+      run: echo ::set-output name=prNumber::${GITHUB_REF/refs\/pull\/:prNumber\/merge\//}
 
     # PR 해시 출력
     - name: Dump GitHub context
@@ -91,7 +86,7 @@ jobs:
     - name: Update Kubernetes resources
       run: |
         cd CICD-kustomize-test/overlays/dev/
-        kustomize edit set image dev-koo-api:${{ github.event.pull_request.base.sha }}
+        kustomize edit set image dev-koo-api:${{ steps.get_version.outputs.prNumber }}
         cat kustomization.yaml
         
     # 수정된 파일 commit & push
