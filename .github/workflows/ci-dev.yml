@@ -44,6 +44,13 @@ jobs:
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
         
+    - name: Generate Image Tag
+      id: image
+      run: |
+        TAG=$(echo ${{ github.sha }} | cut -c1-8)
+        echo TAG=$TAG
+        echo "::set-output name=tag::$TAG"
+        
     - name: Build and push
       uses: docker/build-push-action@v2
       with:
@@ -51,7 +58,7 @@ jobs:
         file: ./Dockerfile
         builder: ${{ steps.buildx.outputs.name }}
         push: true
-        tags: '${{ secrets.REGISTRY_URL }}/${{ secrets.REGISTRY_USERNAME }}/dev-koo-api:latest' 
+        tags: '${{ secrets.REGISTRY_URL }}/${{ secrets.REGISTRY_USERNAME }}/dev-koo-api:${{ steps.image.outputs.tag }}' 
 #         cache-from: 'type=registry,ref=${{ secrets.REGISTRY_URL }}/my-project/server:buildcache'
 #         cache-to: 'type=registry,ref=${{ secrets.REGISTRY_URL }}/my-project/server:buildcache,mode=max
 
@@ -86,7 +93,7 @@ jobs:
     - name: Update Kubernetes resources
       run: |
         cd CICD-kustomize-test/overlays/dev/
-        kustomize edit set image dev-koo-api:${{ steps.get_version.outputs.prNumber }}
+        kustomize edit set image dev-koo-api:${{ steps.image.outputs.tag }}
         cat kustomization.yaml
         
     # 수정된 파일 commit & push
