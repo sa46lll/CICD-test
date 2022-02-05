@@ -76,6 +76,11 @@ jobs:
 #       id: get_version
 #       run: echo ::set-output name=prNumber::${GITHUB_REF#refs/pull/:prNumber/merge/}
 
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.base.sha }}
+
     # PR 해시 출력
     - name: Dump GitHub context
       env:
@@ -86,7 +91,7 @@ jobs:
     - name: Update Kubernetes resources
       run: |
         cd CICD-kustomize-test/overlays/dev/
-        kustomize edit set image dev-koo-api:${{ github.event.sha }}
+        kustomize edit set image dev-koo-api:${{ github.event.pull_request.base.sha }}
         cat kustomization.yaml
         
     # 수정된 파일 commit & push
