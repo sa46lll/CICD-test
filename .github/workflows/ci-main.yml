@@ -8,10 +8,12 @@
 name: Java CI with Gradle - MAIN version
 
 on:
+  push:
+      branches: [ master ]
   pull_request:
     branches:
       - main
-    types: [opened]
+    types: [closed]
 
 jobs:
   build:
