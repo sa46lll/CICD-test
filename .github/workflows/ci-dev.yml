@@ -90,4 +90,4 @@ jobs:
         git config --global user.email "9812smh@naver.com"
         git config --global user.name "sa46lll"
         git commit -am "Update dev-image tag"
-        git push -u origin main
+        git push -u origin develop
